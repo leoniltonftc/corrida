@@ -7,7 +7,6 @@ export function calculateStandings(results: Result[], teams: Team[]): Standing[]
     teamName: string;
     skipper: string;
     crew: CrewMember[];
-    categoryName: string;
     bestPosition: number | null;
     latestRaceTime?: string;
     latestRaceTimestamp: string;
@@ -20,7 +19,6 @@ export function calculateStandings(results: Result[], teams: Team[]): Standing[]
       teamName: team.name,
       skipper: team.skipper,
       crew: team.crew,
-      categoryName: '',
       racesCount: 0,
       bestPosition: null,
       latestRaceTimestamp: '1970-01-01T00:00:00.000Z'

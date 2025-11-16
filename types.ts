@@ -77,7 +77,6 @@ export interface AppData {
 export interface Standing {
   teamId: string;
   teamName: string;
-  categoryName: string;
   skipper: string;
   crew: CrewMember[];
   bestPosition: number | null;

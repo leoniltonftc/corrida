@@ -64,10 +64,11 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ data, handleDataUpdate, isProce
         }
 
         const race = data.races.find(r => r.id === raceId);
-        let finishTime: string | undefined;
-        let elapsedTimeMs: number | undefined;
+        let finishTime: string | undefined = editingResult?.finishTime;
+        let elapsedTimeMs: number | undefined = editingResult?.elapsedTimeMs;
 
-        if (race?.status === 'active' && race.startTime) {
+        // Apenas calcula o tempo para NOVOS resultados de uma corrida ATIVA
+        if (!editingResult && race?.status === 'active' && race.startTime) {
             elapsedTimeMs = currentTime - new Date(race.startTime).getTime();
             finishTime = formatElapsedTime(elapsedTimeMs);
         }

@@ -101,6 +101,14 @@ const RacesTab: React.FC<RacesTabProps> = ({ data, handleDataUpdate, isProcessin
     };
 
     const handleStatusChange = async (race: Race, newStatus: Race['status']) => {
+        if (newStatus === 'active') {
+            const alreadyActiveRace = data.races.find(r => r.id !== race.id && r.status === 'active');
+            if (alreadyActiveRace) {
+                alert(`A corrida "${alreadyActiveRace.name}" já está ativa. Finalize-a antes de iniciar uma nova.`);
+                return;
+            }
+        }
+
         const updatedRace = { ...race, status: newStatus };
         if (newStatus === 'active' && !race.startTime) {
             updatedRace.startTime = new Date().toISOString();
