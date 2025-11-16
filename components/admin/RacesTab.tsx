@@ -169,9 +169,9 @@ const RacesTab: React.FC<RacesTabProps> = ({ data, handleDataUpdate, isProcessin
 
     const getStatusBadge = (status: Race['status']) => {
         const styles: Record<Race['status'], string> = {
-            scheduled: "bg-blue-100 text-blue-800",
-            active: "bg-green-100 text-green-800 animate-pulse",
-            finished: "bg-gray-100 text-gray-800",
+            scheduled: "bg-teal-500/20 text-teal-300",
+            active: "bg-emerald-500/20 text-emerald-300 animate-pulse",
+            finished: "bg-slate-600/50 text-slate-300",
         };
         const text: Record<Race['status'], string> = {
             scheduled: "Programada",
@@ -273,7 +273,7 @@ const RacesTab: React.FC<RacesTabProps> = ({ data, handleDataUpdate, isProcessin
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-gray-100">
+                        <thead className="bg-slate-700/50">
                             <tr>
                                 <th className="p-3">Corrida</th>
                                 <th className="p-3">Data/Hora</th>
@@ -283,8 +283,8 @@ const RacesTab: React.FC<RacesTabProps> = ({ data, handleDataUpdate, isProcessin
                         </thead>
                         <tbody>
                             {data.races.map(race => (
-                                <tr key={race.id} className="border-b hover:bg-gray-50">
-                                    <td className="p-3 font-semibold">{race.name} <br/><small className="font-normal text-gray-500">{data.categories.find(c=>c.id === race.categoryId)?.name}</small></td>
+                                <tr key={race.id} className="border-b border-slate-700 hover:bg-slate-700/80">
+                                    <td className="p-3 font-semibold">{race.name} <br/><small className="font-normal text-slate-400">{data.categories.find(c=>c.id === race.categoryId)?.name}</small></td>
                                     <td className="p-3">{new Date(race.date).toLocaleString('pt-BR')}</td>
                                     <td className="p-3">{getStatusBadge(race.status)}</td>
                                     <td className="p-3">
@@ -303,31 +303,31 @@ const RacesTab: React.FC<RacesTabProps> = ({ data, handleDataUpdate, isProcessin
             </Card>
 
             <Card title="Controle de Exibição OBS">
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6 flex justify-between items-center">
+                <div className="bg-teal-900/50 border-l-4 border-teal-500 p-4 rounded-r-lg mb-6 flex justify-between items-center">
                     <div>
-                        <h3 className="font-bold text-blue-800">🎥 Controle Mestre do Overlay OBS</h3>
-                        <p className="text-sm text-blue-700">O overlay está <strong className={obsMasterEnabled ? 'text-green-600' : 'text-red-600'}>{obsMasterEnabled ? 'ativado' : 'desativado'}</strong>.</p>
+                        <h3 className="font-bold text-teal-300">🎥 Controle Mestre do Overlay OBS</h3>
+                        <p className="text-sm text-teal-400">O overlay está <strong className={obsMasterEnabled ? 'text-emerald-400' : 'text-rose-400'}>{obsMasterEnabled ? 'ativado' : 'desativado'}</strong>.</p>
                     </div>
                     <Button variant={obsMasterEnabled ? 'danger' : 'success'} onClick={() => setObsMasterEnabled(!obsMasterEnabled)}>
                         {obsMasterEnabled ? 'Desativar Overlay' : 'Ativar Overlay'}
                     </Button>
                 </div>
 
-                <h3 className="font-bold text-gray-700 mb-2">Controle Individual por Corrida</h3>
-                <p className="text-sm text-gray-500 mb-4">Escolha quais corridas ativas ou finalizadas devem aparecer no overlay.</p>
+                <h3 className="font-bold text-slate-300 mb-2">Controle Individual por Corrida</h3>
+                <p className="text-sm text-slate-400 mb-4">Escolha quais corridas ativas ou finalizadas devem aparecer no overlay.</p>
 
                 <div className="space-y-3">
                     {racesWithResults.length > 0 ? racesWithResults.map(race => (
-                        <div key={race.id} className={`p-3 rounded-lg flex justify-between items-center transition-colors ${race.obsVisible ? 'bg-green-100' : 'bg-gray-100'}`}>
+                        <div key={race.id} className={`p-3 rounded-lg flex justify-between items-center transition-colors ${race.obsVisible ? 'bg-emerald-900/50' : 'bg-slate-700/50'}`}>
                             <div>
                                 <p className="font-semibold">{race.name}</p>
-                                <p className="text-sm text-gray-600">{data.categories.find(c=>c.id === race.categoryId)?.name}</p>
+                                <p className="text-sm text-slate-400">{data.categories.find(c=>c.id === race.categoryId)?.name}</p>
                             </div>
                             <Button size="sm" variant={race.obsVisible ? 'secondary' : 'primary'} onClick={() => toggleObsVisibility(race)}>
                                 {race.obsVisible ? 'Ocultar no OBS' : 'Exibir no OBS'}
                             </Button>
                         </div>
-                    )) : <p className="text-center text-gray-500 py-4">Nenhuma corrida ativa ou com resultados para exibir.</p>}
+                    )) : <p className="text-center text-slate-500 py-4">Nenhuma corrida ativa ou com resultados para exibir.</p>}
                 </div>
 
             </Card>

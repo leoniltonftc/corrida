@@ -1,5 +1,5 @@
 {
-  "name": "Copy of Regatas",
+  "name": "Regatas",
   "description": "Um aplicativo web responsivo para gerenciar regatas de vela, incluindo categorias, equipes, provas e resultados, com modos de exibição ao vivo para transmissões de TV e OBS.",
   "requestFramePermissions": []
 }

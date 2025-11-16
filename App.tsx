@@ -4,6 +4,8 @@ import { geminiService } from './services/geminiService';
 import { LoadingSpinner } from './components/Icons';
 
 // Lazy load components
+const WelcomeScreen = React.lazy(() => import('./components/WelcomeScreen'));
+const LoginScreen = React.lazy(() => import('./components/LoginScreen'));
 const DashboardScreen = React.lazy(() => import('./components/DashboardScreen'));
 const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
 const TvDisplay = React.lazy(() => import('./components/TvDisplay'));
@@ -12,10 +14,11 @@ const PublicDisplay = React.lazy(() => import('./components/PublicDisplay'));
 
 const LOCAL_STORAGE_KEY = 'regattaAppData';
 
-type View = 'dashboard' | 'admin' | 'public' | 'tv' | 'obs';
+export type View = 'welcome' | 'login' | 'dashboard' | 'admin' | 'public' | 'tv' | 'obs';
 
 const App: React.FC = () => {
-    const [view, setView] = useState<View>('dashboard');
+    const [view, setView] = useState<View>('welcome');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [data, setData] = useState<AppData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -70,23 +73,44 @@ const App: React.FC = () => {
             setIsProcessing(false);
         }
     }, [data]);
+    
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+        setView('dashboard');
+    };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setView('welcome');
+    };
+
 
     const renderView = () => {
         if (isLoading || !data) {
             return (
-                <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 text-white">
-                    <LoadingSpinner color="text-blue-400" />
+                <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-slate-300">
+                    <LoadingSpinner color="text-teal-400" />
                     <p className="mt-4 text-lg">Carregando Sistema de Regatas...</p>
-                    {error && <p className="mt-2 text-red-400">{error}</p>}
+                    {error && <p className="mt-2 text-rose-400">{error}</p>}
                 </div>
             );
         }
         
         const commonProps = { data, handleDataUpdate, isProcessing, setView, initializeData };
         
+        if (!isLoggedIn) {
+            switch(view) {
+                case 'login':
+                    return <LoginScreen onLogin={handleLogin} />;
+                case 'welcome':
+                default:
+                    return <WelcomeScreen setView={setView} />;
+            }
+        }
+
         switch (view) {
             case 'admin':
-                return <AdminPanel {...commonProps} obsMasterEnabled={obsMasterEnabled} setObsMasterEnabled={setObsMasterEnabled} />;
+                return <AdminPanel {...commonProps} obsMasterEnabled={obsMasterEnabled} setObsMasterEnabled={setObsMasterEnabled} handleLogout={handleLogout} />;
             case 'public':
                 return <PublicDisplay {...commonProps} />;
             case 'tv':
@@ -95,15 +119,15 @@ const App: React.FC = () => {
                 return <ObsOverlay {...commonProps} obsMasterEnabled={obsMasterEnabled} />;
             case 'dashboard':
             default:
-                return <DashboardScreen setView={setView} data={data} />;
+                return <DashboardScreen setView={setView} data={data} handleLogout={handleLogout} />;
         }
     };
     
     return (
         <div className="min-h-screen font-['Roboto',_sans-serif]">
             <React.Suspense fallback={
-                 <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 text-white">
-                    <LoadingSpinner color="text-blue-400" />
+                 <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-slate-300">
+                    <LoadingSpinner color="text-teal-400" />
                     <p className="mt-4 text-lg">Carregando visualização...</p>
                 </div>
             }>

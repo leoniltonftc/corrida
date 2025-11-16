@@ -81,10 +81,10 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ data, handleDataUpdate, isPro
             </Card>
 
             <Card title="Gerenciamento de Dados">
-                <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg flex justify-between items-center">
+                <div className="bg-amber-900/50 border-l-4 border-amber-500 p-4 rounded-r-lg flex justify-between items-center">
                     <div>
-                        <h3 className="font-bold text-yellow-800">Limpar Dados Locais</h3>
-                        <p className="text-sm text-yellow-700">Esta ação irá apagar todos os dados salvos no seu navegador. Use com cuidado.</p>
+                        <h3 className="font-bold text-amber-300">Limpar Dados Locais</h3>
+                        <p className="text-sm text-amber-400">Esta ação irá apagar todos os dados salvos no seu navegador. Use com cuidado.</p>
                     </div>
                     <Button variant="danger" onClick={handleClearData}>
                         Apagar Tudo

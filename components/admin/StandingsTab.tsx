@@ -94,11 +94,11 @@ const StandingsTab: React.FC<StandingsTabProps> = ({ data }) => {
     >
       {Array.from(standingsByCategory.entries()).map(([categoryName, standings]) => (
         <div key={categoryName} className="mb-8">
-          <h3 className="text-xl font-semibold text-blue-700 mb-3">{categoryName}</h3>
+          <h3 className="text-xl font-semibold text-purple-400 mb-3">{categoryName}</h3>
           {standings.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-gray-100">
+                <thead className="bg-slate-700/50">
                   <tr>
                     <th className="p-3">Pos.</th>
                     <th className="p-3">Equipe</th>
@@ -109,11 +109,11 @@ const StandingsTab: React.FC<StandingsTabProps> = ({ data }) => {
                 </thead>
                 <tbody>
                   {standings.map((s, index) => (
-                    <tr key={s.teamId} className="border-b hover:bg-gray-50">
+                    <tr key={s.teamId} className="border-b border-slate-700 hover:bg-slate-700/80">
                       <td className="p-3 font-bold">{index + 1}º</td>
                       <td className="p-3 font-semibold">{s.teamName}</td>
-                      <td className="p-3 text-gray-600">{s.skipper}</td>
-                      <td className="p-3 text-sm text-gray-600">{s.crew.map(c => c.name).join(', ')}</td>
+                      <td className="p-3 text-slate-400">{s.skipper}</td>
+                      <td className="p-3 text-sm text-slate-400">{s.crew.map(c => c.name).join(', ')}</td>
                       <td className="p-3 font-mono">{s.latestRaceTime || '-'}</td>
                     </tr>
                   ))}
@@ -121,7 +121,7 @@ const StandingsTab: React.FC<StandingsTabProps> = ({ data }) => {
               </table>
             </div>
           ) : (
-            <p className="text-center text-gray-500 py-4">Nenhum resultado para esta categoria ainda.</p>
+            <p className="text-center text-slate-500 py-4">Nenhum resultado para esta categoria ainda.</p>
           )}
         </div>
       ))}

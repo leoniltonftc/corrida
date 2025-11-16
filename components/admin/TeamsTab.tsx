@@ -159,25 +159,25 @@ const TeamsTab: React.FC<TeamsTabProps> = ({ data, handleDataUpdate, isProcessin
                         <Input id="team-skipper" label="Popeiro da Embarcação" name="skipper" type="text" value={formData.skipper || ''} onChange={handleInputChange} required />
                     </div>
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Tripulação</label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">Tripulação</label>
                         {crew.length > 0 && (
                             <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_auto] items-center gap-2 mb-1 px-1">
-                                <label className="text-xs font-medium text-gray-500">Nome do Tripulante</label>
-                                <label className="text-xs font-medium text-gray-500">Função</label>
+                                <label className="text-xs font-medium text-slate-400">Nome do Tripulante</label>
+                                <label className="text-xs font-medium text-slate-400">Função</label>
                                 <div></div>
                             </div>
                         )}
                         {crew.map((member, index) => (
                             <div key={index} className="grid grid-cols-1 md:grid-cols-[2fr_1fr_auto] items-center gap-2 mb-2">
                                 <input
-                                    className="w-full p-3 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                                    className="w-full p-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     type="text"
                                     placeholder={`Nome do Tripulante ${index + 1}`}
                                     value={member.name}
                                     onChange={(e) => handleCrewChange(index, 'name', e.target.value)}
                                 />
                                 <select
-                                    className="w-full p-3 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors h-[54px]"
+                                    className="w-full p-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors h-[54px]"
                                     value={member.funcao}
                                     onChange={(e) => handleCrewChange(index, 'funcao', e.target.value as CrewFunction)}
                                 >
@@ -211,11 +211,11 @@ const TeamsTab: React.FC<TeamsTabProps> = ({ data, handleDataUpdate, isProcessin
                 </>}
             >
                 {sortedTeams.length === 0 ? (
-                    <p className="text-center text-gray-500 py-4">Nenhuma equipe cadastrada ainda.</p>
+                    <p className="text-center text-slate-400 py-4">Nenhuma equipe cadastrada ainda.</p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-gray-100">
+                            <thead className="bg-slate-700/50">
                                 <tr>
                                     <th className="p-3">Equipe</th>
                                     <th className="p-3">Cidade</th>
@@ -227,12 +227,12 @@ const TeamsTab: React.FC<TeamsTabProps> = ({ data, handleDataUpdate, isProcessin
                             </thead>
                             <tbody>
                                 {sortedTeams.map(team => (
-                                    <tr key={team.id} className="border-b hover:bg-gray-50">
+                                    <tr key={team.id} className="border-b border-slate-700 hover:bg-slate-700/80">
                                         <td className="p-3 font-semibold">{team.name}</td>
                                         <td className="p-3">{team.cidade || '-'}</td>
                                         <td className="p-3">{data.categories.find(c => c.id === team.categoryId)?.name || 'N/A'}</td>
-                                        <td className="p-3 text-gray-600">{team.skipper}</td>
-                                        <td className="p-3 text-gray-600 text-sm">
+                                        <td className="p-3 text-slate-400">{team.skipper}</td>
+                                        <td className="p-3 text-slate-400 text-sm">
                                             {team.crew.map(c => `${c.name} (${c.funcao})`).join(', ') || '-'}
                                         </td>
                                         <td className="p-3">

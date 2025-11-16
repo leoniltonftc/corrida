@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 import type { AppData, Standing } from '../types';
 import { Button } from './common/Button';
 import { calculateStandings } from '../utils/standings';
+import type { View } from '../../App';
 
 interface TvDisplayProps {
   data: AppData;
-  setView: (view: 'admin' | 'public' | 'tv' | 'obs' | 'dashboard') => void;
+  setView: (view: View) => void;
   // These props are not used in this simplified component but are part of the interface
   handleDataUpdate: (prompt: string, optimisticUpdate?: (prevData: AppData) => AppData) => Promise<void>;
   isProcessing: boolean;
@@ -45,49 +46,49 @@ const TvDisplay: React.FC<TvDisplayProps> = ({ data, setView }) => {
   const activeRace = races.find(r => r.status === 'active');
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-[#0c1445] to-[#1e3c72] text-white font-sans flex flex-col overflow-hidden">
-      <header className="flex-shrink-0 flex justify-between items-center p-6 bg-black/30 backdrop-blur-sm border-b border-white/10">
+    <div className="fixed inset-0 bg-slate-900 text-slate-200 font-sans flex flex-col overflow-hidden">
+      <header className="flex-shrink-0 flex justify-between items-center p-6 bg-slate-950/50 backdrop-blur-lg border-b border-slate-700">
         <div>
-          <h1 className="text-3xl font-bold">{currentSettings?.championshipTitle || 'Campeonato de Vela'}</h1>
-          <p className="text-lg opacity-80">{currentSettings?.location || 'Iate Clube'}</p>
+          <h1 className="text-3xl font-bold text-teal-400">{currentSettings?.championshipTitle || 'Campeonato de Vela'}</h1>
+          <p className="text-lg text-slate-300">{currentSettings?.location || 'Iate Clube'}</p>
         </div>
         <Button variant="danger" onClick={() => setView('dashboard')}>Sair do Modo TV</Button>
       </header>
 
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 overflow-hidden">
-        <section className="lg:col-span-2 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 p-6 flex flex-col overflow-hidden">
-          <div className="flex-shrink-0 flex justify-between items-center mb-4 pb-3 border-b-2 border-white/20">
-            <h2 className="text-2xl font-bold">🏆 Classificação Geral</h2>
-            <div className="bg-red-600 px-4 py-1 rounded-full text-sm font-semibold animate-pulse">
+        <section className="lg:col-span-2 bg-slate-800/50 backdrop-blur-lg rounded-xl border border-slate-700 p-6 flex flex-col overflow-hidden">
+          <div className="flex-shrink-0 flex justify-between items-center mb-4 pb-3 border-b-2 border-slate-700">
+            <h2 className="text-2xl font-bold text-purple-400">🏆 Classificação Geral</h2>
+            <div className="bg-rose-600 px-4 py-1 rounded-full text-sm font-semibold animate-pulse">
               🔴 AO VIVO
             </div>
           </div>
           <div className="flex-1 overflow-y-auto pr-2">
             {Array.from(standingsByCategory.entries()).map(([categoryName, standings]) => (
               <div key={categoryName} className="mb-8">
-                <h3 className="text-xl font-semibold text-blue-300 mb-3">{categoryName}</h3>
+                <h3 className="text-xl font-semibold text-teal-400 mb-3">{categoryName}</h3>
                 <div className="space-y-3">
                 {standings.slice(0, 10).map((s, index) => (
-                   <div key={s.teamId} className="grid grid-cols-[50px_1fr_auto] items-center p-4 bg-white/10 rounded-lg hover:bg-white/20 transition-colors duration-300">
-                      <div className={`w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg ${index === 0 ? 'bg-yellow-400 text-gray-900' : index === 1 ? 'bg-gray-400 text-gray-900' : index === 2 ? 'bg-yellow-600 text-white' : 'bg-blue-500'}`}>
+                   <div key={s.teamId} className="grid grid-cols-[50px_1fr_auto] items-center p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors duration-300">
+                      <div className={`w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg ${index === 0 ? 'bg-amber-400 text-slate-900' : index === 1 ? 'bg-slate-400 text-slate-900' : index === 2 ? 'bg-orange-500 text-white' : 'bg-teal-600'}`}>
                         {index + 1}
                       </div>
                       <div>
-                        <p className="font-bold">{s.teamName}</p>
-                        <p className="text-sm opacity-70">{s.skipper}</p>
+                        <p className="font-bold text-slate-100">{s.teamName}</p>
+                        <p className="text-sm text-slate-400">{s.skipper}</p>
                       </div>
                       <div className="text-right">
                          {s.latestRaceTime ? (
                             <>
                                 <p className="font-mono text-lg">{s.latestRaceTime}</p>
-                                <p className="text-sm opacity-70">Último Tempo</p>
+                                <p className="text-sm text-slate-400">Último Tempo</p>
                             </>
                         ) : (
                             <div className="text-right">
-                                <p className="font-semibold text-sm truncate" title={s.crew.map(c => `${c.name} (${c.funcao})`).join(', ')}>
+                                <p className="font-semibold text-sm truncate text-slate-300" title={s.crew.map(c => `${c.name} (${c.funcao})`).join(', ')}>
                                     {s.crew.map(c => c.name).join(', ')}
                                 </p>
-                                <p className="text-xs opacity-70">Tripulação</p>
+                                <p className="text-xs text-slate-400">Tripulação</p>
                             </div>
                         )}
                       </div>
@@ -99,37 +100,37 @@ const TvDisplay: React.FC<TvDisplayProps> = ({ data, setView }) => {
           </div>
         </section>
         
-        <aside className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 p-6 space-y-6 overflow-y-auto">
+        <aside className="bg-slate-800/50 backdrop-blur-lg rounded-xl border border-slate-700 p-6 space-y-6 overflow-y-auto">
             <div>
-              <h3 className="text-xl font-bold mb-3 pb-2 border-b border-white/20">
+              <h3 className="text-xl font-bold mb-3 pb-2 border-b border-slate-700 text-purple-400">
                 {activeRace ? '🟢 Corrida Ativa' : '📋 Status'}
               </h3>
               {activeRace ? (
-                <div className="bg-green-500/20 p-4 rounded-lg space-y-1">
-                    <p className="font-bold text-lg">{activeRace.name}</p>
-                    <p className="opacity-80">Categoria: {categories.find(c=>c.id === activeRace.categoryId)?.name}</p>
+                <div className="bg-emerald-500/20 p-4 rounded-lg space-y-1">
+                    <p className="font-bold text-lg text-emerald-300">{activeRace.name}</p>
+                    <p className="text-slate-300">Categoria: {categories.find(c=>c.id === activeRace.categoryId)?.name}</p>
                     {(activeRace.windSpeed !== undefined && activeRace.windDirection) && (
-                      <p className="opacity-80">🌬️ Vento: {activeRace.windSpeed} km/h, {activeRace.windDirection}</p>
+                      <p className="text-slate-300">🌬️ Vento: {activeRace.windSpeed} km/h, {activeRace.windDirection}</p>
                     )}
                     {(activeRace.temperature !== undefined) && (
-                      <p className="opacity-80">🌡️ Temp: {activeRace.temperature}°C</p>
+                      <p className="text-slate-300">🌡️ Temp: {activeRace.temperature}°C</p>
                     )}
                     {(activeRace.rain !== undefined) && (
-                      <p className="opacity-80">💧 Chuva: {activeRace.rain} mm</p>
+                      <p className="text-slate-300">💧 Chuva: {activeRace.rain} mm</p>
                     )}
                     {(activeRace.humidity !== undefined) && (
-                      <p className="opacity-80">💦 Umidade: {activeRace.humidity}%</p>
+                      <p className="text-slate-300">💦 Umidade: {activeRace.humidity}%</p>
                     )}
                 </div>
-              ) : <p className="text-center p-4 opacity-70">Nenhuma corrida ativa no momento.</p>}
+              ) : <p className="text-center p-4 text-slate-400">Nenhuma corrida ativa no momento.</p>}
             </div>
              <div>
-              <h3 className="text-xl font-bold mb-3 pb-2 border-b border-white/20">📅 Próximas Corridas</h3>
+              <h3 className="text-xl font-bold mb-3 pb-2 border-b border-slate-700 text-purple-400">📅 Próximas Corridas</h3>
               <div className="space-y-2">
               {races.filter(r => r.status === 'scheduled').slice(0, 3).map(race => (
-                <div key={race.id} className="bg-blue-500/20 p-3 rounded-lg">
-                    <p className="font-semibold">{race.name}</p>
-                    <p className="text-sm opacity-80">
+                <div key={race.id} className="bg-teal-500/20 p-3 rounded-lg">
+                    <p className="font-semibold text-teal-300">{race.name}</p>
+                    <p className="text-sm text-slate-300">
                         {new Date(race.date).toLocaleString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - {categories.find(c=>c.id === race.categoryId)?.name}
                     </p>
                 </div>
@@ -138,12 +139,12 @@ const TvDisplay: React.FC<TvDisplayProps> = ({ data, setView }) => {
             </div>
              {teamsByCategory.length > 0 && (
               <div>
-                  <h3 className="text-xl font-bold mb-3 pb-2 border-b border-white/20">👥 Equipes Inscritas</h3>
+                  <h3 className="text-xl font-bold mb-3 pb-2 border-b border-slate-700 text-purple-400">👥 Equipes Inscritas</h3>
                   <div className="space-y-4">
                       {teamsByCategory.map(({ categoryName, teams }) => (
                           <div key={categoryName}>
-                              <h4 className="font-semibold text-blue-300">{categoryName}</h4>
-                              <ul className="list-disc list-inside text-sm opacity-80 pl-2 mt-1 space-y-0.5">
+                              <h4 className="font-semibold text-teal-400">{categoryName}</h4>
+                              <ul className="list-disc list-inside text-sm text-slate-300 pl-2 mt-1 space-y-0.5">
                                   {teams.map(team => (
                                       <li key={team.id}>{team.name} {team.cidade && `(${team.cidade})`}</li>
                                   ))}

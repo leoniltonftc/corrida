@@ -2,11 +2,12 @@ import React, { useMemo } from 'react';
 import type { AppData, Standing } from '../types';
 import { Button } from './common/Button';
 import { calculateStandings } from '../utils/standings';
+import type { View } from '../../App';
 
 
 interface PublicDisplayProps {
   data: AppData;
-  setView: (view: 'admin' | 'public' | 'tv' | 'obs' | 'dashboard') => void;
+  setView: (view: View) => void;
   // These props are not used in this simplified component but are part of the interface
   handleDataUpdate: (prompt: string, optimisticUpdate?: (prevData: AppData) => AppData) => Promise<void>;
   isProcessing: boolean;
@@ -47,11 +48,11 @@ const PublicDisplay: React.FC<PublicDisplayProps> = ({ data, setView }) => {
   const nextRaces = races.filter(r => r.status === 'scheduled').slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1e3c72] to-[#2a5298] text-white p-4 md:p-8">
+    <div className="min-h-screen bg-slate-900 text-slate-200 p-4 md:p-8">
       <div className="container mx-auto max-w-7xl">
-        <header className="text-center mb-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-          <h1 className="text-3xl md:text-4xl font-bold text-shadow-lg">{currentSettings?.championshipTitle || 'Campeonato de Vela'}</h1>
-          <p className="text-lg opacity-90">{currentSettings?.location || 'Iate Clube'}</p>
+        <header className="text-center mb-8 p-6 bg-slate-800/50 backdrop-blur-lg rounded-2xl border border-slate-700">
+          <h1 className="text-3xl md:text-4xl font-bold text-teal-400">{currentSettings?.championshipTitle || 'Campeonato de Vela'}</h1>
+          <p className="text-lg text-slate-300">{currentSettings?.location || 'Iate Clube'}</p>
           <div className="mt-4 flex justify-center gap-4">
             <Button onClick={() => setView('tv')}>📺 Modo TV</Button>
             <Button variant="secondary" onClick={() => setView('dashboard')}>🏠 Voltar ao Dashboard</Button>
@@ -59,31 +60,31 @@ const PublicDisplay: React.FC<PublicDisplayProps> = ({ data, setView }) => {
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white/95 text-gray-800 rounded-xl p-6 shadow-2xl">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4 pb-3 border-b-2 border-blue-200">🏆 Classificação Ao Vivo</h2>
+          <div className="lg:col-span-2 bg-slate-800/50 backdrop-blur-lg border border-slate-700 rounded-xl p-6 shadow-2xl">
+            <h2 className="text-2xl font-bold text-purple-400 mb-4 pb-3 border-b-2 border-slate-700">🏆 Classificação Ao Vivo</h2>
              <div className="space-y-8 max-h-[70vh] overflow-y-auto pr-2">
                 {Array.from(standingsByCategory.entries()).map(([categoryName, standings]) => (
                   <div key={categoryName}>
-                    <h3 className="text-xl font-semibold text-blue-800 mb-3">{categoryName}</h3>
+                    <h3 className="text-xl font-semibold text-teal-400 mb-3">{categoryName}</h3>
                     <div className="space-y-2">
                     {standings.map((s, index) => (
-                      <div key={s.teamId} className="grid grid-cols-[40px_1fr_auto] items-center p-3 bg-gray-100 rounded-lg">
-                        <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm ${index === 0 ? 'bg-yellow-400 text-gray-900' : index === 1 ? 'bg-gray-400 text-gray-900' : index === 2 ? 'bg-yellow-600 text-white' : 'bg-blue-500 text-white'}`}>
+                      <div key={s.teamId} className="grid grid-cols-[40px_1fr_auto] items-center p-3 bg-slate-700/50 rounded-lg">
+                        <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm ${index === 0 ? 'bg-amber-400 text-slate-900' : index === 1 ? 'bg-slate-400 text-slate-900' : index === 2 ? 'bg-orange-500 text-white' : 'bg-teal-600 text-white'}`}>
                             {index + 1}
                         </div>
                         <div>
-                            <p className="font-semibold">{s.teamName}</p>
-                            <p className="text-xs text-gray-600">{s.skipper}</p>
+                            <p className="font-semibold text-slate-100">{s.teamName}</p>
+                            <p className="text-xs text-slate-400">{s.skipper}</p>
                         </div>
                         <div className="text-right">
                            {s.latestRaceTime ? (
-                            <p className="font-mono text-lg text-blue-700">{s.latestRaceTime}</p>
+                            <p className="font-mono text-lg text-teal-300">{s.latestRaceTime}</p>
                             ) : (
                                 <div className="text-right">
-                                    <p className="text-sm text-gray-700 truncate" title={s.crew.map(c => c.name).join(', ')}>
+                                    <p className="text-sm text-slate-300 truncate" title={s.crew.map(c => c.name).join(', ')}>
                                         {s.crew.map(c => c.name).join(', ')}
                                     </p>
-                                    <p className="text-xs text-gray-500">Tripulação</p>
+                                    <p className="text-xs text-slate-500">Tripulação</p>
                                 </div>
                             )}
                         </div>
@@ -95,59 +96,59 @@ const PublicDisplay: React.FC<PublicDisplayProps> = ({ data, setView }) => {
             </div>
           </div>
           
-          <aside className="bg-white/95 text-gray-800 rounded-xl p-6 shadow-2xl space-y-6">
+          <aside className="bg-slate-800/50 backdrop-blur-lg border border-slate-700 rounded-xl p-6 shadow-2xl space-y-6">
               <div>
-                <h3 className="text-xl font-bold text-blue-900 mb-3 pb-2 border-b-2 border-blue-200">
+                <h3 className="text-xl font-bold text-purple-400 mb-3 pb-2 border-b-2 border-slate-700">
                     {activeRace ? '🟢 Corrida Ativa' : '📋 Status'}
                 </h3>
                 {activeRace ? (
-                    <div className="bg-green-100 border-l-4 border-green-500 p-4 rounded space-y-1">
-                        <p className="font-bold text-green-800">{activeRace.name}</p>
-                        <p className="text-sm text-green-700">Categoria: {categories.find(c=>c.id === activeRace.categoryId)?.name}</p>
+                    <div className="bg-emerald-900/50 border-l-4 border-emerald-500 p-4 rounded space-y-1">
+                        <p className="font-bold text-emerald-300">{activeRace.name}</p>
+                        <p className="text-sm text-slate-300">Categoria: {categories.find(c=>c.id === activeRace.categoryId)?.name}</p>
                         {(activeRace.windSpeed !== undefined && activeRace.windDirection) && (
-                          <p className="text-sm text-green-700">🌬️ Vento: {activeRace.windSpeed} km/h, {activeRace.windDirection}</p>
+                          <p className="text-sm text-slate-300">🌬️ Vento: {activeRace.windSpeed} km/h, {activeRace.windDirection}</p>
                         )}
                         {(activeRace.temperature !== undefined) && (
-                          <p className="text-sm text-green-700">🌡️ Temp: {activeRace.temperature}°C</p>
+                          <p className="text-sm text-slate-300">🌡️ Temp: {activeRace.temperature}°C</p>
                         )}
                         {(activeRace.rain !== undefined) && (
-                          <p className="text-sm text-green-700">💧 Chuva: {activeRace.rain} mm</p>
+                          <p className="text-sm text-slate-300">💧 Chuva: {activeRace.rain} mm</p>
                         )}
                         {(activeRace.humidity !== undefined) && (
-                          <p className="text-sm text-green-700">💦 Umidade: {activeRace.humidity}%</p>
+                          <p className="text-sm text-slate-300">💦 Umidade: {activeRace.humidity}%</p>
                         )}
                     </div>
-                ) : <p className="text-center p-4 text-gray-500">Nenhuma corrida ativa.</p>}
+                ) : <p className="text-center p-4 text-slate-400">Nenhuma corrida ativa.</p>}
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-blue-900 mb-3 pb-2 border-b-2 border-blue-200">📅 Próximas Corridas</h3>
+                <h3 className="text-xl font-bold text-purple-400 mb-3 pb-2 border-b-2 border-slate-700">📅 Próximas Corridas</h3>
                 <div className="space-y-2">
                 {nextRaces.length > 0 ? nextRaces.map(race => (
-                    <div key={race.id} className="bg-blue-100 p-3 rounded-lg">
-                        <p className="font-semibold text-blue-800">{race.name}</p>
-                        <p className="text-sm text-blue-700">
+                    <div key={race.id} className="bg-teal-900/50 p-3 rounded-lg">
+                        <p className="font-semibold text-teal-300">{race.name}</p>
+                        <p className="text-sm text-slate-300">
                             {new Date(race.date).toLocaleString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - {categories.find(c=>c.id === race.categoryId)?.name}
                         </p>
                     </div>
-                )) : <p className="text-center p-4 text-gray-500">Nenhuma corrida programada.</p>}
+                )) : <p className="text-center p-4 text-slate-400">Nenhuma corrida programada.</p>}
                 </div>
               </div>
           </aside>
 
            {teamsByCategory.length > 0 && (
-            <div className="lg:col-span-3 bg-white/95 text-gray-800 rounded-xl p-6 shadow-2xl">
-              <h2 className="text-2xl font-bold text-blue-900 mb-4 pb-3 border-b-2 border-blue-200">👥 Equipes Inscritas</h2>
+            <div className="lg:col-span-3 bg-slate-800/50 backdrop-blur-lg border border-slate-700 rounded-xl p-6 shadow-2xl">
+              <h2 className="text-2xl font-bold text-purple-400 mb-4 pb-3 border-b-2 border-slate-700">👥 Equipes Inscritas</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 max-h-[60vh] overflow-y-auto pr-2">
                 {teamsByCategory.map(({ categoryName, teams }) => (
                   <div key={categoryName}>
-                    <h3 className="text-lg font-semibold text-blue-800 mb-2">{categoryName}</h3>
+                    <h3 className="text-lg font-semibold text-teal-400 mb-2">{categoryName}</h3>
                     <ul className="space-y-1">
                       {teams.map(team => (
-                        <li key={team.id} className="text-sm p-2 bg-gray-100 rounded">
-                          <span className="font-medium">{team.name}</span>
-                          {team.cidade && <span className="text-xs text-gray-500 block">Cidade: {team.cidade}</span>}
-                          <span className="text-xs text-gray-500 block">Popeiro: {team.skipper}</span>
+                        <li key={team.id} className="text-sm p-2 bg-slate-700/50 rounded">
+                          <span className="font-medium text-slate-100">{team.name}</span>
+                          {team.cidade && <span className="text-xs text-slate-400 block">Cidade: {team.cidade}</span>}
+                          <span className="text-xs text-slate-400 block">Popeiro: {team.skipper}</span>
                         </li>
                       ))}
                     </ul>

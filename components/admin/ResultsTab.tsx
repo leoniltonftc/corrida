@@ -120,7 +120,7 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ data, handleDataUpdate, isProce
         if (race?.status !== 'active' || !race.startTime) return null;
 
         const elapsed = currentTime - new Date(race.startTime).getTime();
-        return <div className="mt-2 p-2 bg-green-100 text-green-800 rounded-lg text-center font-mono">⏱️ Tempo Atual: {formatElapsedTime(elapsed)}</div>;
+        return <div className="mt-2 p-2 bg-emerald-900/50 text-emerald-300 rounded-lg text-center font-mono">⏱️ Tempo Atual: {formatElapsedTime(elapsed)}</div>;
 
     }, [formData.raceId, data.races, currentTime]);
 
@@ -227,7 +227,7 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ data, handleDataUpdate, isProce
             >
                  <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-gray-100">
+                        <thead className="bg-slate-700/50">
                             <tr>
                                 <th className="p-3">Pos.</th>
                                 <th className="p-3">Corrida</th>
@@ -241,7 +241,7 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ data, handleDataUpdate, isProce
                                 const raceName = data.races.find(r => r.id === result.raceId)?.name || 'N/A';
                                 const teamName = data.teams.find(t => t.id === result.teamId)?.name || 'N/A';
                                 return (
-                                <tr key={result.id} className="border-b hover:bg-gray-50">
+                                <tr key={result.id} className="border-b border-slate-700 hover:bg-slate-700/80">
                                     <td className="p-3 font-bold">{result.position}º</td>
                                     <td className="p-3">{raceName}</td>
                                     <td className="p-3 font-semibold">{teamName}</td>

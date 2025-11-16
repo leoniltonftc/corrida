@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LoadingSpinner } from '../Icons';
 
@@ -12,14 +11,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const baseClasses = "inline-flex items-center justify-center font-semibold rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none";
+const baseClasses = "inline-flex items-center justify-center font-semibold rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500",
-  success: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500",
-  warning: "bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-400",
-  danger: "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500",
-  secondary: "bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500",
+  primary: "bg-teal-600 hover:bg-teal-500 text-white focus:ring-teal-400 hover:shadow-[0_0_15px_theme(colors.teal.500/0.6)]",
+  success: "bg-emerald-600 hover:bg-emerald-500 text-white focus:ring-emerald-400 hover:shadow-[0_0_15px_theme(colors.emerald.500/0.6)]",
+  warning: "bg-amber-500 hover:bg-amber-400 text-white focus:ring-amber-300",
+  danger: "bg-rose-600 hover:bg-rose-500 text-white focus:ring-rose-400",
+  secondary: "bg-slate-600 hover:bg-slate-500 text-white focus:ring-slate-400",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -47,4 +46,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-   

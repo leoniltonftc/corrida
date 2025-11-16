@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import { Button } from './common/Button';
+import { Input } from './common/Input';
 
 interface LoginScreenProps {
   onLogin: () => void;
@@ -27,32 +28,34 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#1e3c72] to-[#2a5298] text-white">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-slate-900 text-slate-200">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold mb-2">🏁 Sistema de Regatas</h1>
-                    <p className="text-lg opacity-90">Acesso Administrativo</p>
+                    <h1 className="text-4xl font-bold mb-2 text-teal-400">🏁 Sistema de Regatas</h1>
+                    <p className="text-lg text-slate-300">Acesso Administrativo</p>
                 </div>
-                <div className="bg-white/95 text-gray-800 rounded-2xl p-8 shadow-2xl">
+                <div className="bg-slate-800/50 backdrop-blur-lg border border-slate-700 rounded-2xl p-8 shadow-2xl">
                      <form onSubmit={handleAdminLogin}>
-                        <input
+                        <Input
+                            label="Usuário"
+                            id="username"
                             type="text"
-                            placeholder="Usuário"
+                            placeholder="Seu usuário"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full p-3 mb-3 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        <input
+                        <Input
+                            label="Senha"
+                            id="password"
                             type="password"
-                            placeholder="Senha"
+                            placeholder="Sua senha"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 mb-4 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        <Button type="submit" className="w-full" isLoading={isLoading}>
+                        <Button type="submit" className="w-full mt-2" isLoading={isLoading}>
                             Entrar
                         </Button>
-                        {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
+                        {error && <p className="text-rose-400 text-sm mt-3 text-center">{error}</p>}
                     </form>
                 </div>
             </div>

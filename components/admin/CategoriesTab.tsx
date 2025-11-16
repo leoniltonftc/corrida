@@ -151,11 +151,11 @@ const CategoriesTab: React.FC<CategoriesTabProps> = ({ data, handleDataUpdate, i
                 </>}
             >
                 {data.categories.length === 0 ? (
-                    <p className="text-center text-gray-500 py-4">Nenhuma categoria cadastrada ainda.</p>
+                    <p className="text-center text-slate-400 py-4">Nenhuma categoria cadastrada ainda.</p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-gray-100">
+                            <thead className="bg-slate-700/50">
                                 <tr>
                                     <th className="p-3">Categoria</th>
                                     <th className="p-3">Descrição</th>
@@ -169,10 +169,10 @@ const CategoriesTab: React.FC<CategoriesTabProps> = ({ data, handleDataUpdate, i
                                         .filter(t => t.categoryId === category.id)
                                         .sort((a, b) => a.name.localeCompare(b.name));
                                     return (
-                                        <tr key={category.id} className="border-b hover:bg-gray-50">
+                                        <tr key={category.id} className="border-b border-slate-700 hover:bg-slate-700/80">
                                             <td className="p-3 font-semibold">{category.name}</td>
-                                            <td className="p-3 text-gray-600">{category.description || '-'}</td>
-                                            <td className="p-3 text-sm text-gray-700">
+                                            <td className="p-3 text-slate-400">{category.description || '-'}</td>
+                                            <td className="p-3 text-sm text-slate-300">
                                                 {registeredTeams.length > 0 ? (
                                                     <div>
                                                         <span className="font-bold">{registeredTeams.length} equipe(s)</span>
@@ -181,7 +181,7 @@ const CategoriesTab: React.FC<CategoriesTabProps> = ({ data, handleDataUpdate, i
                                                         </ul>
                                                     </div>
                                                 ) : (
-                                                    <span className="text-gray-400">Nenhuma equipe</span>
+                                                    <span className="text-slate-500">Nenhuma equipe</span>
                                                 )}
                                             </td>
                                             <td className="p-3">
