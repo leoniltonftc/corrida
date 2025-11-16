@@ -1,4 +1,3 @@
-
 // FIX: Removed self-import of `CrewMember` to resolve declaration conflict.
 
 export interface Settings {
@@ -30,7 +29,7 @@ export interface Team {
   id: string;
   type: 'team';
   name: string;
-  cidade?: string;
+  cidade: string;
   categoryId: string;
   skipper: string;
   crew: CrewMember[];
@@ -80,7 +79,6 @@ export interface Standing {
   teamName: string;
   categoryName: string;
   skipper: string;
-  racesCount: number;
   crew: CrewMember[];
   bestPosition: number | null;
   latestRaceTime?: string;

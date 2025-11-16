@@ -51,7 +51,7 @@ const responseSchema = {
                     id: { type: Type.STRING },
                     type: { type: Type.STRING },
                     name: { type: Type.STRING },
-                    cidade: { type: Type.STRING, nullable: true },
+                    cidade: { type: Type.STRING },
                     categoryId: { type: Type.STRING },
                     skipper: { type: Type.STRING },
                     crew: {
@@ -66,7 +66,7 @@ const responseSchema = {
                         }
                     },
                 },
-                required: ['id', 'type', 'name', 'categoryId', 'skipper', 'crew']
+                required: ['id', 'type', 'name', 'cidade', 'categoryId', 'skipper', 'crew']
             }
         },
         races: {

@@ -1,16 +1,17 @@
 import type { Result, Team, Standing, CrewMember } from '../types';
 
 export function calculateStandings(results: Result[], teams: Team[]): Standing[] {
+  // O tipo do mapa interno inclui propriedades necessárias para cálculo e ordenação
   const standingsMap = new Map<string, {
     teamId: string;
     teamName: string;
     skipper: string;
     crew: CrewMember[];
     categoryName: string;
-    racesCount: number;
     bestPosition: number | null;
     latestRaceTime?: string;
     latestRaceTimestamp: string;
+    racesCount: number;
   }>();
 
   teams.forEach(team => {
@@ -35,7 +36,7 @@ export function calculateStandings(results: Result[], teams: Team[]): Standing[]
         standing.bestPosition = result.position;
       }
 
-      // Track the latest race time by timestamp
+      // Rastreia o tempo da última corrida pelo timestamp
       if (result.timestamp > standing.latestRaceTimestamp) {
           standing.latestRaceTimestamp = result.timestamp;
           standing.latestRaceTime = result.finishTime;
@@ -43,23 +44,25 @@ export function calculateStandings(results: Result[], teams: Team[]): Standing[]
     }
   });
 
-  // Since there are no points, we can sort by best position, then number of races.
-  return Array.from(standingsMap.values())
+  const sortedStandings = Array.from(standingsMap.values())
     .filter(s => s.racesCount > 0)
     .sort((a, b) => {
-      // Sort by best position (lower is better). Nulls go to the end.
+      // Ordena pela melhor posição (menor é melhor). Nulos vão para o fim.
       if (a.bestPosition === null) return 1;
       if (b.bestPosition === null) return -1;
       if (a.bestPosition !== b.bestPosition) {
         return a.bestPosition - b.bestPosition;
       }
       
-      // Tie-breaker: more races is better
+      // Critério de desempate: mais corridas é melhor
       if (a.racesCount !== b.racesCount) {
         return b.racesCount - a.racesCount;
       }
 
-      // Final tie-breaker: alphabetical by team name
+      // Critério de desempate final: ordem alfabética pelo nome da equipe
       return a.teamName.localeCompare(b.teamName);
     });
+
+    // Mapeia para o tipo público Standing, omitindo campos de cálculo interno
+    return sortedStandings.map(({ racesCount, latestRaceTimestamp, ...rest }) => rest);
 }
