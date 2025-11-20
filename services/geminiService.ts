@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { AppData } from '../types';
 
-// This is a placeholder; in a real environment, the API key would be securely managed.
+// API key is handled via vite.config.ts define for client-side access
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
@@ -133,42 +133,43 @@ const mockGeminiService = {
   updateData: async (prompt: string, data: AppData): Promise<AppData> => {
     console.log("MOCK: Updating data with prompt:", prompt);
     // Basic mock logic
-    if (prompt.includes("Add the following new item")) {
-        const itemStr = prompt.substring(prompt.indexOf('{'), prompt.lastIndexOf('}') + 1);
-        const item = JSON.parse(itemStr);
-        if (item.type === 'category') mockDataStore.categories.push(item);
-        else if (item.type === 'team') mockDataStore.teams.push(item);
-        else if (item.type === 'race') mockDataStore.races.push(item);
-        else if (item.type === 'result') mockDataStore.results.push(item);
-        else if (item.type === 'settings') mockDataStore.settings.push(item);
+    try {
+        if (prompt.includes("Add the following new item")) {
+            const itemStr = prompt.substring(prompt.indexOf('{'), prompt.lastIndexOf('}') + 1);
+            const item = JSON.parse(itemStr);
+            if (item.type === 'category') mockDataStore.categories.push(item);
+            else if (item.type === 'team') mockDataStore.teams.push(item);
+            else if (item.type === 'race') mockDataStore.races.push(item);
+            else if (item.type === 'result') mockDataStore.results.push(item);
+            else if (item.type === 'settings') mockDataStore.settings.push(item);
 
-    } else if (prompt.includes("Update the following item")) {
-      const itemStr = prompt.substring(prompt.indexOf('{'), prompt.lastIndexOf('}') + 1);
-      const item = JSON.parse(itemStr);
-      let store;
-      if (item.type === 'category') store = mockDataStore.categories;
-      else if (item.type === 'team') store = mockDataStore.teams;
-      else if (item.type === 'race') store = mockDataStore.races;
-      else if (item.type === 'result') store = mockDataStore.results;
-      else if (item.type === 'settings') store = mockDataStore.settings;
-      if (store) {
-        const index = store.findIndex((i: any) => i.id === item.id);
-        if (index > -1) store[index] = item;
-      }
-    } else if (prompt.includes("Delete the item with id")) {
-      const parts = prompt.split("'");
-      const itemType = parts[1];
-      const itemId = parts[3];
-      let store;
-      if (itemType === 'category') store = mockDataStore.categories;
-      else if (itemType === 'team') store = mockDataStore.teams;
-      else if (itemType === 'race') store = mockDataStore.races;
-      else if (itemType === 'result') store = mockDataStore.results;
-      else if (itemType === 'settings') store = mockDataStore.settings;
-
-      if (store) {
-         mockDataStore[itemType as keyof AppData] = store.filter((i: any) => i.id !== itemId) as any;
-      }
+        } else if (prompt.includes("Update the following item")) {
+            const itemStr = prompt.substring(prompt.indexOf('{'), prompt.lastIndexOf('}') + 1);
+            const item = JSON.parse(itemStr);
+            let store;
+            if (item.type === 'category') store = mockDataStore.categories;
+            else if (item.type === 'team') store = mockDataStore.teams;
+            else if (item.type === 'race') store = mockDataStore.races;
+            else if (item.type === 'result') store = mockDataStore.results;
+            else if (item.type === 'settings') store = mockDataStore.settings;
+            if (store) {
+                const index = store.findIndex((i: any) => i.id === item.id);
+                if (index > -1) store[index] = item;
+            }
+        } else if (prompt.includes("Delete the item with id")) {
+            const parts = prompt.split("'");
+            // Simple parsing assumption: "Delete the item with type 'TYPE' and id 'ID'"
+            const itemType = parts[1];
+            const itemId = parts[3];
+            
+            if (itemType === 'category') mockDataStore.categories = mockDataStore.categories.filter(i => i.id !== itemId);
+            else if (itemType === 'team') mockDataStore.teams = mockDataStore.teams.filter(i => i.id !== itemId);
+            else if (itemType === 'race') mockDataStore.races = mockDataStore.races.filter(i => i.id !== itemId);
+            else if (itemType === 'result') mockDataStore.results = mockDataStore.results.filter(i => i.id !== itemId);
+            else if (itemType === 'settings') mockDataStore.settings = mockDataStore.settings.filter(i => i.id !== itemId);
+        }
+    } catch (e) {
+        console.error("Mock update failed", e);
     }
     return Promise.resolve(JSON.parse(JSON.stringify(mockDataStore)));
   }
@@ -215,10 +216,9 @@ Return only the complete, updated JSON object.
 
 export const geminiService = {
   getInitialData: async (): Promise<AppData> => {
-     if (!ai) return mockGeminiService.getInitialData();
-     const prompt = "Return the initial empty state for the regatta application as a JSON object.";
-     const initialState: AppData = { settings: [], categories: [], teams: [], races: [], results: [] };
-     return callGemini(buildPrompt(prompt, initialState));
+     // Optimization: Return static empty state immediately to save tokens/latency
+     // The app will check LocalStorage first anyway.
+     return Promise.resolve({ settings: [], categories: [], teams: [], races: [], results: [] });
   },
 
   updateData: async (prompt: string, currentData: AppData): Promise<AppData> => {
